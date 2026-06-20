@@ -20,4 +20,6 @@ public abstract class DataBaseHelper extends RoomDatabase {
         return instance;
     }
 
+    public abstract ExpenceDao expenceDao();
+
 }
