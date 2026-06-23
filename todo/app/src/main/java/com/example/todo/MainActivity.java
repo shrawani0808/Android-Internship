@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
         //update todos
 //        updateTodo();
 //        deleteTodo();
-        getAllTodos();
-
+       // getAllTodos();
+        searchTodo();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -124,5 +124,14 @@ public class MainActivity extends AppCompatActivity {
         else {
             Toast.makeText(this, "Failed to delete todo", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void searchTodo(){
+
+       todoList = helper.search("a");
+       for (int i=0;i<todoList.size();i++){
+           Log.d("Search", "searchTodo: "+todoList.get(i).getTask());
+       }
+
     }
 }

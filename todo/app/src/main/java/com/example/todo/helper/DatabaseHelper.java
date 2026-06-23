@@ -90,4 +90,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
         return isDeleted > 0;
     }
+
+    public ArrayList<TodoModel> search(String task){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(Queries.SEARCH,new String[]{"%"+task+"%"});
+        ArrayList<TodoModel> searchList = new ArrayList<>();
+        while(cursor.moveToNext()){
+            TodoModel searchTodo = new TodoModel();
+            searchTodo.setId(cursor.getString(cursor.getColumnIndexOrThrow(Utils.COL_ID)));
+            searchTodo.setTask(cursor.getString(cursor.getColumnIndexOrThrow(Utils.COL_TASK)));
+            searchTodo.setCompletion(cursor.getInt(cursor.getColumnIndexOrThrow(Utils.COL_IS_COMPLETED))==1);
+
+            searchList.add(searchTodo);
+
+        }
+        cursor.close();
+        return searchList;
+    }
 }

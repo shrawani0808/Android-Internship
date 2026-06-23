@@ -11,6 +11,6 @@ public class Queries {
     public static final String DROP_TABLE_TODO=
             "DROP TABLE IF EXISTS "+Utils.TABLE_NAME;
 
-    public static final String GET_ALL_TODO =
-            "SELECT * FROM "+Utils.TABLE_NAME;
+    public static final String GET_ALL_TODO = "SELECT * FROM "+Utils.TABLE_NAME;
+    public static final String SEARCH = "SELECT * FROM "+Utils.TABLE_NAME+" WHERE "+Utils.COL_TASK+" LIKE ?";
 }
