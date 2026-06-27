@@ -34,11 +34,15 @@ public class CourceAdapter extends RecyclerView.Adapter<CourceViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CourceViewHolder holder, int position) {
-
+            String title = courceList.get(position).getCourceTitle();
+            String price = courceList.get(position).getCourcePrice();
+            //String image = courceList.get(position).getCourceImage();
+            holder.tvTitle.setText(title);
+            holder.tvPrice.setText(price);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return courceList.size();
     }
 }
