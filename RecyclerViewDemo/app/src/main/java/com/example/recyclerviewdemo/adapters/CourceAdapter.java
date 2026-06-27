@@ -1,11 +1,14 @@
 package com.example.recyclerviewdemo.adapters;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.recyclerviewdemo.R;
 import com.example.recyclerviewdemo.holders.CourceViewHolder;
 import com.example.recyclerviewdemo.models.CourceModel;
 
@@ -23,7 +26,10 @@ public class CourceAdapter extends RecyclerView.Adapter<CourceViewHolder> {
     @NonNull
     @Override
     public CourceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view =layoutInflater.inflate(R.layout.cource_row_layout,parent,false);
+        CourceViewHolder viewHolder = new CourceViewHolder(view);
+        return viewHolder;
     }
 
     @Override
