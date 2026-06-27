@@ -20,7 +20,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cource Title"
-            android:textColor="@color/black"
             android:textStyle="bold"
             android:fontFamily="sans-serif-black"
             android:textSize="15sp"
@@ -31,18 +30,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cource Price"
-            android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="normal"
             android:fontFamily="sans-serif-black"
             android:layout_margin="5dp"
             android:id="@+id/tvCourcePrice"/>
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#cbcbcb"
-        android:layout_below="@+id/courceIv"
-        />
+
 
 </RelativeLayout>
