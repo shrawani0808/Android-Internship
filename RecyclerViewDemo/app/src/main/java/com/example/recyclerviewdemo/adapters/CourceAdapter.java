@@ -1,7 +1,9 @@
 package com.example.recyclerviewdemo.adapters;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +23,8 @@ import java.util.ArrayList;
 
 public class CourceAdapter extends RecyclerView.Adapter<CourceViewHolder> {
 
-    private Context context;
-    private ArrayList<CourceModel> courceList;
+    private final Context context;
+    private final ArrayList<CourceModel> courceList;
     public CourceAdapter(Context context,ArrayList<CourceModel> courceList){
         this.context=context;
         this.courceList=courceList;
@@ -55,6 +57,36 @@ public class CourceAdapter extends RecyclerView.Adapter<CourceViewHolder> {
                 openDialog(model,position);
             });
 
+
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Delete Item");
+                    builder.setMessage("Do you want to delete this row?");
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            courceList.remove(position);
+                            notifyItemRemoved(position);
+                        }
+                    });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                    return true;
+                }
+            });
+
+
     }
 
     @Override
@@ -70,21 +102,21 @@ public class CourceAdapter extends RecyclerView.Adapter<CourceViewHolder> {
     }
 
     private void initDialogComp(Dialog dialog,CourceModel model,int position){
-        EditText edtImage = dialog.findViewById(R.id.edtCourceImage);
-        EditText edtTitle = dialog.findViewById(R.id.edtCourceTitle);
-        EditText edtPrice = dialog.findViewById(R.id.tvCourcePrice);
+        EditText edtCourceImage = dialog.findViewById(R.id.edtCourceImage);
+        EditText edtCourceTitle = dialog.findViewById(R.id.edtCourceTitle);
+        EditText edtCourcePrice = dialog.findViewById(R.id.tvCourcePrice);
         Button btnSaveAndEdit = dialog.findViewById(R.id.btnAddAndEdit);
 
-        edtTitle.setText(model.getCourceTitle());
-        edtPrice.setText(model.getCourcePrice());
-        edtImage.setText(model.getCourceImage());
+        edtCourceTitle.setText(model.getCourceTitle());
+        edtCourcePrice.setText(model.getCourcePrice());
+        edtCourceImage.setText(model.getCourceImage());
         btnSaveAndEdit.setText("Edit");
 
         btnSaveAndEdit.setOnClickListener(v -> {
             String image,title,price;
-            image=edtImage.getText().toString();
-            title=edtTitle.getText().toString();
-            price=edtPrice.getText().toString();
+            image=edtCourceImage.getText().toString();
+            title=edtCourceTitle.getText().toString();
+            price=edtCourcePrice.getText().toString();
 
             CourceModel newModel = new CourceModel(image,title,price);
             courceList.set(position,newModel);

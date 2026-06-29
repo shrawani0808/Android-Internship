@@ -1,6 +1,9 @@
 package com.example.recyclerviewdemo;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton fab;
     private RecyclerView recyclerview;
+    ArrayList<CourceModel> courceList = new ArrayList<>();
+    CourceAdapter adapter = new CourceAdapter(MainActivity.this,courceList);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +39,13 @@ public class MainActivity extends AppCompatActivity {
         initComp();
 
         getAllList();
+
+        fab.setOnClickListener(v -> {
+            openDialog();
+        });
     }
 
     private void getAllList(){
-        ArrayList<CourceModel> courceList = new ArrayList<>();
 //        CourceModel model = new CourceModel();
 //        model.setCourceTitle("C Language");
 //        model.setCourcePrice("299");
@@ -50,10 +58,42 @@ public class MainActivity extends AppCompatActivity {
         courceList.add(new CourceModel("https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/1920px-C_Programming_Language.svg.png","C Language","299"));
         courceList.add(new CourceModel("https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/1280px-ISO_C%2B%2B_Logo.svg.png","C++ Language","399"));
         courceList.add(new CourceModel("https://upload.wikimedia.org/wikipedia/en/thumb/3/30/Java_programming_language_logo.svg/960px-Java_programming_language_logo.svg.png","Java Language","499"));
-        CourceAdapter adapter = new CourceAdapter(MainActivity.this,courceList);
         recyclerview.setAdapter(adapter);
 
     }
+
+    private void openDialog(){
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.add_cource_layout);
+
+        EditText edtCourseImage = dialog.findViewById(R.id.edtCourceImage);
+        EditText edtCourseTitle = dialog.findViewById(R.id.edtCourceTitle);
+        EditText edtCoursePrice = dialog.findViewById(R.id.edtCourcePrice);
+        Button btnAddAndEdit = dialog.findViewById(R.id.btnAddAndEdit);
+
+        btnAddAndEdit.setText("Save");
+
+        btnAddAndEdit.setOnClickListener(v -> {
+            String image, title, price;
+            image = edtCourseImage.getText().toString();
+            title = edtCourseTitle.getText().toString();
+            price = edtCoursePrice.getText().toString();
+
+            CourceModel model = new CourceModel(image,title,price);
+            courceList.add(model);
+
+            adapter.notifyItemInserted(courceList.size());
+            recyclerview.scrollToPosition(courceList.size()-1);
+
+
+            dialog.dismiss();
+        });
+
+        dialog.show();
+
+    }
+
+
     public void initComp(){
         fab= findViewById(R.id.fabAdd);
         recyclerview=findViewById(R.id.courseRV);
