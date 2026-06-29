@@ -59,5 +59,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerview=findViewById(R.id.courseRV);
         LinearLayoutManager layoutManager= new LinearLayoutManager(MainActivity.this);
         recyclerview.setLayoutManager(layoutManager);
+       // onBackPressed();
     }
 }

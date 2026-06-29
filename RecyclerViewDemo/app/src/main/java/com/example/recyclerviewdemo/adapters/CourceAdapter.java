@@ -1,9 +1,12 @@
 package com.example.recyclerviewdemo.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,9 +39,10 @@ public class CourceAdapter extends RecyclerView.Adapter<CourceViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CourceViewHolder holder, int position) {
-            String title = courceList.get(position).getCourceTitle();
-            String price = courceList.get(position).getCourcePrice();
-            String image = courceList.get(position).getCourceImage();
+            final CourceModel model = courceList.get(position);
+            String title = model.getCourceTitle();
+            String price = model.getCourcePrice();
+            String image = model.getCourceImage();
             holder.tvTitle.setText(title);
             holder.tvPrice.setText(price);
             try{
@@ -46,10 +50,49 @@ public class CourceAdapter extends RecyclerView.Adapter<CourceViewHolder> {
             } catch (Exception e) {
                 Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
+
+            holder.itemView.setOnClickListener(v -> {
+                openDialog(model,position);
+            });
+
     }
 
     @Override
     public int getItemCount() {
         return courceList.size();
     }
+
+    private void openDialog(CourceModel model,int position){
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.add_cource_layout);
+        initDialogComp(dialog,model,position);
+        dialog.show();
+    }
+
+    private void initDialogComp(Dialog dialog,CourceModel model,int position){
+        EditText edtImage = dialog.findViewById(R.id.edtCourceImage);
+        EditText edtTitle = dialog.findViewById(R.id.edtCourceTitle);
+        EditText edtPrice = dialog.findViewById(R.id.tvCourcePrice);
+        Button btnSaveAndEdit = dialog.findViewById(R.id.btnAddAndEdit);
+
+        edtTitle.setText(model.getCourceTitle());
+        edtPrice.setText(model.getCourcePrice());
+        edtImage.setText(model.getCourceImage());
+        btnSaveAndEdit.setText("Edit");
+
+        btnSaveAndEdit.setOnClickListener(v -> {
+            String image,title,price;
+            image=edtImage.getText().toString();
+            title=edtTitle.getText().toString();
+            price=edtPrice.getText().toString();
+
+            CourceModel newModel = new CourceModel(image,title,price);
+            courceList.set(position,newModel);
+            notifyItemChanged(position);
+            dialog.dismiss();
+
+        });
+    }
+
+
 }
