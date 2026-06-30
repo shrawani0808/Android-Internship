@@ -98,19 +98,20 @@ public class CourceAdapter extends RecyclerView.Adapter<CourceViewHolder> {
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.add_cource_layout);
         initDialogComp(dialog,model,position);
-        dialog.show();
+
     }
 
     private void initDialogComp(Dialog dialog,CourceModel model,int position){
         EditText edtCourceImage = dialog.findViewById(R.id.edtCourceImage);
         EditText edtCourceTitle = dialog.findViewById(R.id.edtCourceTitle);
-        EditText edtCourcePrice = dialog.findViewById(R.id.tvCourcePrice);
+        EditText edtCourcePrice = dialog.findViewById(R.id.edtCourcePrice);
         Button btnSaveAndEdit = dialog.findViewById(R.id.btnAddAndEdit);
 
         edtCourceTitle.setText(model.getCourceTitle());
         edtCourcePrice.setText(model.getCourcePrice());
         edtCourceImage.setText(model.getCourceImage());
         btnSaveAndEdit.setText("Edit");
+
 
         btnSaveAndEdit.setOnClickListener(v -> {
             String image,title,price;
@@ -124,6 +125,7 @@ public class CourceAdapter extends RecyclerView.Adapter<CourceViewHolder> {
             dialog.dismiss();
 
         });
+        dialog.show();
     }
 
 
