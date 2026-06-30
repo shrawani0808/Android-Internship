@@ -10,7 +10,7 @@
         android:id="@+id/nameTv"
         android:textStyle="bold"
         android:text="This is sample text"
-        android:textSize="30dp"
+        android:textSize="15dp"
         android:layout_margin="10dp"/>
 
 </LinearLayout>
