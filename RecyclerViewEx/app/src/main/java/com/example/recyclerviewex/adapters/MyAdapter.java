@@ -94,7 +94,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         btnEditAndSave.setOnClickListener(v -> {
             String name = nameTv.getText().toString();
             Model newmodel = new Model(name);
-            nameList.add(position,newmodel);
+            nameList.set(position,newmodel);
             notifyItemChanged(position);
             dialog.dismiss();
         });

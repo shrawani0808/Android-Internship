@@ -3,6 +3,7 @@ package com.example.recyclerviewex;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -55,11 +56,10 @@ public class MainActivity extends AppCompatActivity {
             Dialog dialog = new Dialog(MainActivity.this);
             dialog.setContentView(R.layout.add_name_layout);
             Button btnEditAndSave = dialog.findViewById(R.id.btnEditAndSave);
-
+            EditText edtname = dialog.findViewById(R.id.edtname);
             btnEditAndSave.setText("Save");
             btnEditAndSave.setOnClickListener(v1 -> {
-                TextView nameTextview = dialog.findViewById(R.id.nameTv);
-                String name = nameTextview.getText().toString();
+                String name = edtname.getText().toString();
                 Model model = new Model(name);
                 nameList.add(model);
                 adapter.notifyItemInserted(nameList.size());
