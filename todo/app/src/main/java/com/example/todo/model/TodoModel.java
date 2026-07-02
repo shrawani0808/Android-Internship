@@ -7,6 +7,11 @@ public class TodoModel {
     public TodoModel () {
 
     }
+    public TodoModel (String id, String task, boolean completion) {
+        this.id = id;
+        this.task = task;
+        this.completion = completion;
+    }
 
     public String getId() {
         return id;

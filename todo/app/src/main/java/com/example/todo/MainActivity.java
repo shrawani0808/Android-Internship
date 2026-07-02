@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.helper.DatabaseHelper;
 import com.example.todo.model.TodoModel;
@@ -29,12 +30,12 @@ public class MainActivity extends AppCompatActivity {
 
     private DatabaseHelper helper;
     private ArrayList<TodoModel> todoList;
-    private EditText edtTask;
-    private Button btnAddTodo;
+    public EditText edtTask;
+    public Button btnAddTodo;
     //private LinearLayout container_layout;
-
-    private ListView listView;
-    private ArrayList<String> taskList;
+    //private ListView listView;
+    private RecyclerView todoRv;
+    private TodoAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,18 +66,34 @@ public class MainActivity extends AppCompatActivity {
         //update todos
 //        updateTodo();
 //        deleteTodo();
-       // getAllTodos();
-        searchTodo();
+        getAllTodos();
+        //searchTodo();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
-                String selected = taskList.get(index);
-                Toast.makeText(MainActivity.this, "selected:"+selected, Toast.LENGTH_SHORT).show();
+
+        btnAddTodo.setOnClickListener(v-> {
+            String btnText = btnAddTodo.getText().toString();
+            if (btnText.equals("Add Todo")) {
+                //addition
+                addTodo();
             }
         });
 
 
+    }
+    private void addTodo()
+    {
+        String task = edtTask.getText().toString().trim();
+        String id = Utils.generateUUID();
+        TodoModel model = new TodoModel(id,task,false);
+        boolean isAdded = helper.addTodo(model);
+        if (isAdded) {
+            Toast.makeText(this, "Todo Added...", Toast.LENGTH_SHORT).show();
+            todoList.add(model);
+            adapter.notifyItemInserted(todoList.size());
+        }
+        else {
+            Toast.makeText(this, "failed to add todo", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initComp()
@@ -85,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
         todoList = new ArrayList<>();
         edtTask = findViewById(R.id.edtTask);
         btnAddTodo = findViewById(R.id.btnAddTodo);
-        listView = findViewById(R.id.listview);
     }
 
     private void getAllTodos() {
