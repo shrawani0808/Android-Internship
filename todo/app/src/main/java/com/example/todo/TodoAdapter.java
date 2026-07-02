@@ -62,11 +62,11 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
                 if(isChecked){
                     model.setCompletion(true);
                     helper.updateTodo(model) ;
-                    holder.itemView.setBackgroundColor(Color.parseColor("#03fc94"));
+                    holder.itemView.setBackgroundColor(Color.parseColor("#34ebae"));
 
                 }else{
                     model.setCompletion(false);
-                    helper.updateTodo(model) ;
+                    helper.updateTodo(model);
                     holder.itemView.setBackgroundColor(Color.TRANSPARENT);
                 }
             }
