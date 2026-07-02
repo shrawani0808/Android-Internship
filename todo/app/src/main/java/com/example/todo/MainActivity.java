@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -13,10 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todo.helper.DatabaseHelper;
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     //private ListView listView;
     private RecyclerView todoRv;
     private TodoAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,27 +54,19 @@ public class MainActivity extends AppCompatActivity {
 
         //init comp
         initComp();
-
-        btnAddTodo.setOnClickListener(v-> {
-            //get task from edit text
-            String task = edtTask.getText().toString().trim();
-            boolean isAdded = helper.addTodo(task);
-            if (isAdded) {
-                Toast.makeText(this, "Todo Added...", Toast.LENGTH_SHORT).show();
-                getAllTodos();
-            }
-            else {
-                Toast.makeText(this, "failed to add todo", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         //update todos
 //        updateTodo();
 //        deleteTodo();
         getAllTodos();
         //searchTodo();
+        clickfun();
 
 
+    }
+
+
+
+    public void clickfun(){
         btnAddTodo.setOnClickListener(v-> {
             String btnText = btnAddTodo.getText().toString();
             if (btnText.equals("Add Todo")) {
@@ -77,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 addTodo();
             }
         });
-
-
     }
     private void addTodo()
     {
@@ -102,27 +97,22 @@ public class MainActivity extends AppCompatActivity {
         todoList = new ArrayList<>();
         edtTask = findViewById(R.id.edtTask);
         btnAddTodo = findViewById(R.id.btnAddTodo);
+        todoRv = findViewById(R.id.todoRv);
+        todoRv.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
     private void getAllTodos() {
         todoList = helper.getAllTodos();
-        taskList = new ArrayList<>();
-        for (int i=0;i<todoList.size();i++) {
-            TodoModel model = todoList.get(i);
-            taskList.add(model.getTask());
-        }
-        ArrayAdapter<String> tasksAdapter = new ArrayAdapter<>(
-                MainActivity.this,
-                android.R.layout.simple_list_item_1,
-                taskList
-        );
-        listView.setAdapter(tasksAdapter);
+        adapter = new TodoAdapter(MainActivity.this,todoList,MainActivity.this);
+        todoRv.setAdapter(adapter);
 
     }
 
-    private void updateTodo() {
-        String id = "fdcc6aca-5077-4dc3-ad30-66253388dc46";
-        boolean isUpdated = helper.updateTodo(id,"To See Recycler View",true);
+    public void updateTodo(String id) {
+        String task = edtTask.getText().toString();
+        TodoModel model = new TodoModel(id,task,false);
+        boolean isUpdated = helper.updateTodo(model);
         if (isUpdated) {
             Toast.makeText(this, "Todo updated", Toast.LENGTH_SHORT).show();
         }
