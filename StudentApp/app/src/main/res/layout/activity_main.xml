@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:padding="5dp"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/stdName"
+        android:hint="Enter Student Name"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:background="#B3E5FC"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/stdAge"
+        android:hint="Enter Student Age"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:background="#B3E5FC"
+        android:layout_below="@+id/stdName"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/stdCourse"
+        android:hint="Enter Student Course"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:background="#B3E5FC"
+        android:layout_below="@+id/stdAge"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/coursePrice"
+        android:hint="Enter Course Price"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:background="#B3E5FC"
+        android:layout_below="@+id/stdCourse"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/saveBtn"
+        android:text="Save"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:backgroundTint="#03A9F4"
+        android:layout_below="@+id/coursePrice"
+        android:layout_centerHorizontal="true"/>
+
+
+</RelativeLayout>
