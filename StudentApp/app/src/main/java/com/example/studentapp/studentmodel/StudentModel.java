@@ -4,9 +4,7 @@ public class StudentModel {
 
     String id,name,course;
     int age,price;
-    public StudentModel(){
-
-    }
+    public StudentModel(){}
     public StudentModel(String id,String name,int age,String course,int price){
         this.id=id;
         this.name=name;

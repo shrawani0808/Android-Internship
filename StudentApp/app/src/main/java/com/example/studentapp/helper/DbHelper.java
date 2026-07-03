@@ -2,6 +2,7 @@ package com.example.studentapp.helper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 
 import com.example.studentapp.studentmodel.StudentModel;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 
@@ -51,6 +53,30 @@ public class DbHelper extends SQLiteOpenHelper {
         cv.put(COL_PRICE,model.getPrice());
         long result = db.insert(TABLE_NAME,null,cv);
         return result>0;
+    }
+
+    public ArrayList<StudentModel> getData(){
+        ArrayList<StudentModel> studList = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        String fetch = "SELECT * FROM "+TABLE_NAME;
+        Cursor cursor = db.rawQuery(fetch,null);
+        while(cursor.moveToNext()) {
+            StudentModel model = new StudentModel();
+            String id = cursor.getString(cursor.getColumnIndexOrThrow(COL_ID));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(COL_NAME));
+            int age = cursor.getInt(cursor.getColumnIndexOrThrow(COL_AGE));
+            String course = cursor.getString(cursor.getColumnIndexOrThrow(COL_COURSE));
+            int price = cursor.getInt(cursor.getColumnIndexOrThrow(COL_PRICE));
+
+            model.setId(id);
+            model.setName(name);
+            model.setAge(age);
+            model.setCourse(course);
+            model.setPrice(price);
+
+            studList.add(model);
+        }
+        return studList;
     }
 
 }

@@ -2,6 +2,7 @@
 
 import static android.text.TextUtils.isEmpty;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.studentapp.helper.DbHelper;
 import com.example.studentapp.studentmodel.StudentModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.UUID;
 
@@ -22,6 +24,7 @@ import java.util.UUID;
 
     EditText stdName , stdAge , stdCourse , coursePrice;
     Button savebtn;
+    FloatingActionButton fab;
     DbHelper helper= new DbHelper(MainActivity.this);
     StudentModel model;
     @Override
@@ -47,6 +50,11 @@ import java.util.UUID;
             }
         });
 
+        fab.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this, activity_student_data.class);
+            startActivity(i);
+        });
+
     }
 
     private void initComp(){
@@ -55,6 +63,7 @@ import java.util.UUID;
         stdCourse = findViewById(R.id.stdCourse);
         coursePrice = findViewById(R.id.coursePrice);
         savebtn = findViewById(R.id.saveBtn);
+        fab = findViewById(R.id.fab);
     }
 
     private void validate(){
