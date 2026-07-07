@@ -41,6 +41,10 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
     public void onBindViewHolder(@NonNull TodoViewHolder holder, int position) {
         final TodoModel model = todoList.get(position);
         holder.tvTodo.setText(model.getTask());
+        holder.checkbox.setChecked(model.isCompletion());
+        if(model.isCompletion()){
+            holder.itemView.setBackgroundColor(Color.parseColor("#34ebae"));
+        }
         holder.itemView.setOnClickListener(v->{
             String id = model.getId();
             mainActivity.edtTask.setText(model.getTask());
@@ -59,15 +63,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder
         holder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(@NonNull CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if(model.isCompletion()){
+                    Toast.makeText(context,"Cant uncheck checkbox",Toast.LENGTH_LONG).show();
+                    holder.checkbox.setChecked(true);
+                }
+                else{
                     model.setCompletion(true);
                     helper.updateTodo(model) ;
                     holder.itemView.setBackgroundColor(Color.parseColor("#34ebae"));
-
-                }else{
-                    model.setCompletion(false);
-                    helper.updateTodo(model);
-                    holder.itemView.setBackgroundColor(Color.TRANSPARENT);
                 }
             }
         });
