@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        initDatabase();
+       initDatabase();
 //        helper.todoDao().addTodos(
 //                new ToDoEntity("do crud operations",false)
 //        );
@@ -46,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
 //                new ToDoEntity("use room database",false)
 //        );
         helper.todoDao().updateTodos(
-                new ToDoEntity(2,"Crud opp",true)
+                new ToDoEntity(2,"Recycler view added",true)
         );
 
         helper.todoDao().deleteTodos(
-                new ToDoEntity(7)
+                new ToDoEntity(5)
         );
 
         todolist = (ArrayList<ToDoEntity>) helper.todoDao().getAllTodos();
