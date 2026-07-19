@@ -70,8 +70,9 @@ public class MainActivity extends AppCompatActivity {
         if(cursor.getCount()>0){
             while(cursor.moveToNext()){
                 String contact_name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
+                String contact_photo = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.PHOTO_URI));
 //                Log.d("CONTACTS","contactName: "+contact_name);
-                    contactList.add(new ContactModel(contact_name));
+                    contactList.add(new ContactModel(contact_name,contact_photo));
                     contactRecyclerView.setAdapter(adapter);
             }
         }
