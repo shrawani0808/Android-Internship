@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/contactLayout">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contactImage"
+        android:src="@mipmap/ic_launcher"
+        android:layout_margin="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contactTextview"
+        android:text="Sample Contact"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@+id/contactImage"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#BFBBBB"
+        android:layout_below="@+id/contactImage"/>
+
+
+
+</RelativeLayout>
