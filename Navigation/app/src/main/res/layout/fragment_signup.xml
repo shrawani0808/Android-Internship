@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/welcome_background"
+    tools:context=".SignupFragement">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signupusername"
+            android:backgroundTint="@color/white"
+            android:hint="Username"
+            android:padding="14dp"
+            android:background="@drawable/edttext_border"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signuppassword"
+            android:backgroundTint="@color/white"
+            android:hint="Password"
+            android:padding="14dp"
+            android:layout_marginTop="18dp"
+            android:inputType="textPassword"
+            android:background="@drawable/edttext_border"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signupButton"
+            android:text="SIGNUP"
+            android:padding="16dp"
+            android:textSize="20sp"
+            android:layout_marginTop="25dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
