@@ -32,6 +32,19 @@
             android:text="Sample Contact"
             android:textSize="20dp"
             android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/viewTVNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewTV"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="5dp"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Sample Contact"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

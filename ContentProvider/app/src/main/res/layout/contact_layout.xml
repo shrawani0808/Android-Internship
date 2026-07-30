@@ -21,6 +21,18 @@
         android:fontFamily="sans-serif-condensed"
         android:layout_margin="5dp"
         android:layout_toRightOf="@+id/contactImage"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/contactTVNO"
+        android:text="Sample Contact"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_margin="5dp"
+        android:layout_toRightOf="@+id/contactImage"
+        android:layout_below="@+id/contactTextview"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

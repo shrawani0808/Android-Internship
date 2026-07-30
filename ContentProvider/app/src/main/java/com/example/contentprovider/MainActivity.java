@@ -65,14 +65,15 @@ public class MainActivity extends AppCompatActivity {
     }
     private void readContacts(){
         ContentResolver resolver = getContentResolver();
-        Uri uri = ContactsContract.Contacts.CONTENT_URI;
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         Cursor cursor = resolver.query(uri,null,null,null,null);
         if(cursor.getCount()>0){
             while(cursor.moveToNext()){
-                String contact_name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.DISPLAY_NAME));
-                String contact_photo = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.PHOTO_URI));
-//                Log.d("CONTACTS","contactName: "+contact_name);
-                    contactList.add(new ContactModel(contact_name,contact_photo));
+                String contact_name = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                String contact_photo = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+                String contact_no = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                Log.d("CONTACTS","contactName: "+contact_name+contact_no);
+                    contactList.add(new ContactModel(contact_name,contact_photo,contact_no));
                     contactRecyclerView.setAdapter(adapter);
             }
         }
