@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp">
+
+    <EditText
+        android:id="@+id/saveName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:padding="5dp"
+        android:background="#BBDEFB"
+        android:hint="Enter Contact Name"/>
+
+    <EditText
+        android:id="@+id/saveNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:padding="5dp"
+        android:background="#BBDEFB"
+        android:hint="Enter Contact Number"
+        android:layout_below="@+id/saveName"/>
+
+    <Button
+        android:id="@+id/saveBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+        android:backgroundTint="#42A5F5"
+        android:layout_below="@+id/saveNo"
+        android:layout_centerHorizontal="true"/>
+
+
+</RelativeLayout>

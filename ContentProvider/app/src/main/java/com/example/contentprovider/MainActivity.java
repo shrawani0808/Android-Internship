@@ -1,6 +1,7 @@
 package com.example.contentprovider;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -9,6 +10,9 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Adapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -24,11 +28,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contentprovider.adapters.ContactAdapter;
 import com.example.contentprovider.models.ContactModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    FloatingActionButton fab;
     RecyclerView contactRecyclerView;
     ArrayList<ContactModel> contactList;
     ContactAdapter adapter;
@@ -45,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
         });
         initComp();
         checkPermission();
+        fab.setOnClickListener(v -> {
+            openDialog();
+        });
     }
 
     private void checkPermission(){
@@ -92,7 +101,34 @@ public class MainActivity extends AppCompatActivity {
                     }
             );
 
+    public void openDialog(){
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.add_contact_layout);
+
+        EditText contactName = dialog.findViewById(R.id.saveName);
+        EditText contactNo = dialog.findViewById(R.id.saveNo);
+        Button saveBtn = dialog.findViewById(R.id.saveBtn);
+
+        saveBtn.setOnClickListener(v -> {
+            String name , no;
+            name = contactName.getText().toString();
+            no = contactNo.getText().toString();
+
+            ContactModel model = new ContactModel(name,null,no);
+            contactList.add(model);
+
+            adapter.notifyItemInserted(contactList.size());
+            contactRecyclerView.scrollToPosition(contactList.size()-1);
+
+            dialog.dismiss();
+
+        });
+
+        dialog.show();
+    }
+
     private void initComp(){
+        fab = findViewById(R.id.fab);
         contactRecyclerView=findViewById(R.id.contactRV);
         contactList = new ArrayList<>();
         adapter = new ContactAdapter(MainActivity.this,contactList);
