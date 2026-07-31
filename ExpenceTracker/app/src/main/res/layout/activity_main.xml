@@ -41,4 +41,20 @@
         android:padding="10dp"
         android:layout_margin="10dp"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/updateexpence"
+        android:text="Update Expence"
+        android:padding="10dp"
+        android:layout_margin="10dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/deleteexpence"
+        android:text="Delete Expence"
+        android:padding="10dp"
+        android:layout_margin="10dp"/>
+
   </LinearLayout>
