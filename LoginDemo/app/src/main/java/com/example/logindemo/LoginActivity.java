@@ -16,6 +16,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -23,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     MaterialButton loginbtn;
     TextView txtRegister,txtForgot;
     FirebaseAuth auth ;
+    FirebaseFirestore db;
     String userName, password;
 
     @Override
@@ -37,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         });
         initComp();
         auth = FirebaseAuth.getInstance();
+        db =FirebaseFirestore.getInstance();
         loginbtn.setOnClickListener(v -> {
             FirebaseApp.initializeApp(LoginActivity.this);
 

@@ -14,13 +14,16 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignupActivity extends AppCompatActivity {
 
-    TextInputEditText uname,email,pass;
+    TextInputEditText uname,email,pass,phoneno;
     MaterialButton singupbtn;
     TextView gotologin;
     FirebaseAuth auth;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +38,15 @@ public class SignupActivity extends AppCompatActivity {
 
         initComp();
         auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         singupbtn.setOnClickListener(v -> {
-            String emailString,passString;
+            String nameString,emailString,passString,phonenoString;
+            nameString=uname.getText().toString().trim();
             emailString=email.getText().toString().trim();
             passString=pass.getText().toString().trim();
+            phonenoString=phoneno.getText().toString().trim();
+
 
             if(emailString.isEmpty()){
                 email.setError("Enter Email");
@@ -58,10 +65,27 @@ public class SignupActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()){
                             Toast.makeText(this, "Account is Created", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(
-                                    SignupActivity.this, DashboardFragment.class
-                            ));
-                            finish();
+                            FirebaseUser firebaseUser = auth.getCurrentUser();
+                            if(firebaseUser==null){
+                                return;
+                            }
+                            String uid= firebaseUser.getUid();
+                            UserModel model = new UserModel(uid,nameString,emailString,phonenoString);
+                            db.collection("Users")
+                                            .document(uid)
+                                            .set(model)
+                                            .addOnSuccessListener(unused -> {
+                                                Toast.makeText(this, "Account Created Successfully", Toast.LENGTH_SHORT).show();
+                                                startActivity(new Intent(
+                                                        SignupActivity.this, DashboardFragment.class
+                                                ));
+                                                finish();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(this, "FireStore Error:"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            });
+
+
                         }else{
                             String error =task.getException()!= null
                                     ? task.getException().getMessage()
@@ -84,6 +108,7 @@ public class SignupActivity extends AppCompatActivity {
         uname=findViewById(R.id.etUnamesup);
         email=findViewById(R.id.etEmailsup);
         pass=findViewById(R.id.etPasswordsup);
+        phoneno=findViewById(R.id.etPhonenosup);
         singupbtn=findViewById(R.id.btnSignup);
         gotologin=findViewById(R.id.gotologintxt);
 
