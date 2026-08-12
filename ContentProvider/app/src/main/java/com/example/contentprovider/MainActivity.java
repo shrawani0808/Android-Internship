@@ -2,6 +2,7 @@ package com.example.contentprovider;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
             );
 
     public void openDialog(){
+        ArrayList<ContentProviderOperation> ops = new ArrayList<>();
         Dialog dialog = new Dialog(MainActivity.this);
         dialog.setContentView(R.layout.add_contact_layout);
 
@@ -121,6 +123,45 @@ public class MainActivity extends AppCompatActivity {
             contactRecyclerView.scrollToPosition(contactList.size()-1);
 
             dialog.dismiss();
+
+            //Create New Contact
+            ops.add(ContentProviderOperation.newInsert(
+                    ContactsContract.RawContacts.CONTENT_URI)
+                    .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE,"com.google")
+                    .withValue(ContactsContract.RawContacts.ACCOUNT_NAME,"shrawanidharmadhikari@gmail.com")
+                    .build());
+            //Add Name
+            ops.add(ContentProviderOperation.newInsert(
+                    ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(
+                    ContactsContract.Data.RAW_CONTACT_ID,0)
+                    .withValue(
+                            ContactsContract.Data.MIMETYPE,
+                            ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                    .withValue(
+                            ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,name)
+                    .build());
+            //Add Number
+            ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(
+                            ContactsContract.Data.RAW_CONTACT_ID,0)
+                    .withValue(ContactsContract.Data.MIMETYPE,
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                    .withValue(
+                            ContactsContract.CommonDataKinds.Phone.NUMBER,no)
+                    .withValue(
+                            ContactsContract.CommonDataKinds.Phone.TYPE,
+                            ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                    .build());
+            try{
+                getContentResolver().applyBatch(
+                        ContactsContract.AUTHORITY,ops);
+                Toast.makeText(this, "Contact Saved", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e("Contacts_save",e.toString());
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
 
         });
 
