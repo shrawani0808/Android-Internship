@@ -18,6 +18,12 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Locale;
@@ -28,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     TextView locationTv;
     FusedLocationProviderClient fusedLocationClient;
     private static final int LOCATION_PERMISSION_REQUEST=100;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
                         Double latitude = location.getLatitude();
                         Double longitude= location.getLongitude();
                         Toast.makeText(this, "Fetched Latitude and longitude", Toast.LENGTH_SHORT).show();
-                        getAddress(latitude,longitude);
+//                        getAddress(latitude,longitude);
+                        getWheatherDetails(latitude,longitude);
                     }else{
                         Toast.makeText(this, "On Location in Your Device", Toast.LENGTH_SHORT).show();
                     }
@@ -103,6 +111,29 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void getWheatherDetails(Double latitude,Double longitude){
+
+        String api = "https://api.open-meteo.com/v1/forecast?latitude="+latitude+"&longitude="+longitude+"&current=temperature_2m,relative_humidity_2m,wind_speed_10m";
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,api,null,response ->{
+            try {
+                JSONObject current = response.getJSONObject("current");
+                Double temperature = current.getDouble("temperature_2m");
+                Double humidity = current.getDouble("relative_humidity_2m");
+                Double windSpeed = current.getDouble("wind_speed_10m");
+
+                String resultText = "Temperature: " + temperature + "\nHumidity: " + humidity + "\nWind Speed: " + windSpeed;
+                locationTv.setText(resultText);
+            } catch (JSONException e) {
+                Toast.makeText(this, "JSON Parsing Error:"+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        },volleyError -> {
+            Toast.makeText(this, "Failed to load error", Toast.LENGTH_SHORT).show();
+        });
+
+        queue.add(request);
     }
 
 
