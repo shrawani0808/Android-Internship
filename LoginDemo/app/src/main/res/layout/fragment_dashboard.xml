@@ -4,6 +4,7 @@
     android:id="@+id/dashboard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".DashboardFragment">
 
     <LinearLayout
@@ -102,6 +103,13 @@
             android:id="@+id/btndeleteuser"
             android:layout_gravity="center_horizontal"
             android:text="Delete User"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnchangepassword"
+            android:layout_gravity="center_horizontal"
+            android:text="Change Password"/>
 
 
     </LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.logindemo;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -34,7 +35,7 @@ public class DashboardFragment extends Fragment {
 
     TextView nametv, locationTv , locationGeoTV;
     EditText edtupdatename;
-    Button locationBtn ,editbtn, deletefieldbtn, deleteuserbtn;
+    Button locationBtn ,editbtn, deletefieldbtn, deleteuserbtn, changepassBtn;
     FirebaseAuth auth;
     FirebaseFirestore db ;
 
@@ -54,6 +55,7 @@ public class DashboardFragment extends Fragment {
         editbtn=view.findViewById(R.id.btnedit);
         deletefieldbtn=view.findViewById(R.id.btndelete);
         deleteuserbtn = view.findViewById(R.id.btndeleteuser);
+        changepassBtn=view.findViewById(R.id.btnchangepassword);
         fusedLocationClient= LocationServices.getFusedLocationProviderClient(requireActivity());
         auth= FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -74,6 +76,17 @@ public class DashboardFragment extends Fragment {
 
         deleteuserbtn.setOnClickListener(v -> {
             deleteCurrentUser();
+        });
+
+        changepassBtn.setOnClickListener(v -> {
+
+                requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.dashboard, new ChangePasswordFragement())
+                    .addToBackStack(null)
+                    .commit();
+
         });
 
         return view;
