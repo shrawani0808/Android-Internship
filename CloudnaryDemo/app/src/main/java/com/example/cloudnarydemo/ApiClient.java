@@ -18,5 +18,9 @@ public class ApiClient {
         }
         return retrofit;
     }
+    public static CloudinaryApi getApi(String cloudName) {
+        return getClient(cloudName)
+                .create(CloudinaryApi.class);
+    }
 
 }
