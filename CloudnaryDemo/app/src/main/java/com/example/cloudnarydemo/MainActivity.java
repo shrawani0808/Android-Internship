@@ -1,5 +1,6 @@
 package com.example.cloudnarydemo;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
@@ -15,12 +16,24 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
 
     ImageView imgView;
     Button btnSelect , btnUpload;
     TextView textResult;
     private Uri imageUri;
+    private static final String CLOUD_NAME = "dr1v4juzd";
+    private static final String UPLOAD_PRESET = "gallery_images";
     private final ActivityResultLauncher<String> imagePicker =
             registerForActivityResult(
                     new ActivityResultContracts.GetContent(),
@@ -52,6 +65,104 @@ public class MainActivity extends AppCompatActivity {
             imagePicker.launch("image/*");
         });
 
+        btnUpload.setOnClickListener(v -> {
+            uploadImage();
+        });
 
+    }
+    private void uploadImage() {
+
+        if (imageUri == null) {
+            textResult.setText("Please select an image first.");
+            return;
+        }
+
+        try {
+
+            ContentResolver contentResolver = getContentResolver();
+
+            InputStream inputStream =
+                    contentResolver.openInputStream(imageUri);
+
+            byte[] imageBytes = new byte[inputStream.available()];
+
+            inputStream.read(imageBytes);
+            inputStream.close();
+
+            RequestBody requestFile =
+                    RequestBody.create(
+                            MediaType.parse("image/*"),
+                            imageBytes
+                    );
+
+            MultipartBody.Part imagePart =
+                    MultipartBody.Part.createFormData(
+                            "file",
+                            "image.jpg",
+                            requestFile
+                    );
+
+            RequestBody uploadPreset =
+                    RequestBody.create(
+                            MediaType.parse("text/plain"),
+                            UPLOAD_PRESET
+                    );
+
+            CloudinaryApi api =
+                    ApiClient.getApi(CLOUD_NAME);
+
+            Call<CloudinaryResponse> call =
+                    api.uploadImage(
+                            imagePart,
+                            uploadPreset
+                    );
+
+            textResult.setText("Uploading...");
+
+            call.enqueue(new Callback<CloudinaryResponse>() {
+
+                @Override
+                public void onResponse(
+                        Call<CloudinaryResponse> call,
+                        Response<CloudinaryResponse> response) {
+
+                    if (response.isSuccessful()
+                            && response.body() != null) {
+
+                        String imageUrl =
+                                response.body().getSecure_url();
+
+                        textResult.setText(
+                                "Upload successful!\n" + imageUrl
+                        );
+
+                    } else {
+
+                        textResult.setText(
+                                "Upload failed: "
+                                        + response.code()
+                        );
+                    }
+                }
+
+                @Override
+                public void onFailure(
+                        Call<CloudinaryResponse> call,
+                        Throwable t) {
+
+                    textResult.setText(
+                            "Upload error: "
+                                    + t.getMessage()
+                    );
+                }
+            });
+
+        } catch (IOException e) {
+
+            textResult.setText(
+                    "Error reading image: "
+                            + e.getMessage()
+            );
+        }
     }
 }
