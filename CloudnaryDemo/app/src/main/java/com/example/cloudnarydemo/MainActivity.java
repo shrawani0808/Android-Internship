@@ -18,6 +18,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -25,13 +28,15 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
     ImageView imgView;
     Button btnSelect , btnUpload;
-    TextView textResult;
+    TextView textResult,textImageUrl;
     private Uri imageUri;
+    private FirebaseFirestore firestore;
     private static final String CLOUD_NAME = "dr1v4juzd";
     private static final String UPLOAD_PRESET = "gallery_images";
     private final ActivityResultLauncher<String> imagePicker =
@@ -60,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
         btnUpload=findViewById(R.id.uploadBtn);
         btnSelect=findViewById(R.id.selectBtn);
         textResult=findViewById(R.id.textView);
-
+        textImageUrl=findViewById(R.id.textViewImageUrl);
+        firestore = FirebaseFirestore.getInstance();
         btnSelect.setOnClickListener(v -> {
             imagePicker.launch("image/*");
         });
@@ -135,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
                         textResult.setText(
                                 "Upload successful!\n" + imageUrl
                         );
+                        saveImageUrlToFirestore(imageUrl);
 
                     } else {
 
@@ -165,4 +172,18 @@ public class MainActivity extends AppCompatActivity {
             );
         }
     }
+
+    private void saveImageUrlToFirestore(String imageUrl){
+        Map <String, Object> imageData = new HashMap<>();
+        imageData.put("imageUrl",imageUrl);
+        imageData.put("uploaded ",com.google.firebase.Timestamp.now());
+        firestore.collection("images").add(imageData)
+                .addOnSuccessListener(documentReference -> {
+                    textImageUrl.setText("Saved Successfully! "+ imageUrl);
+                })
+                .addOnFailureListener(e -> {
+                    textImageUrl.setText("Firestore Error !"+e.getMessage());
+                });
+    }
+
 }

@@ -32,6 +32,16 @@
         android:layout_height="wrap_content"
         android:text="Upload Result will appeare here!"
         android:id="@+id/textView"
+        android:textIsSelectable="true"
+        android:textSize="14sp"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Image URL"
+        android:id="@+id/textViewImageUrl"
         android:textSize="14sp"
         android:gravity="center_horizontal"
         android:layout_marginTop="20dp"/>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "407554355114",
+    "project_id": "cloudnarydemo",
+    "storage_bucket": "cloudnarydemo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407554355114:android:abd3696e83b252c6a785d3",
+        "android_client_info": {
+          "package_name": "com.example.cloudnarydemo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkj24tSCvrWs4prxvmCdYO2s3pqVAvvkM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
